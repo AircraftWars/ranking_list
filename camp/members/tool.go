@@ -5,7 +5,6 @@ package members
 //----------
 
 import (
-	"github.com/gin-gonic/gin"
 	"unicode"
 )
 
@@ -72,20 +71,4 @@ func checkCreateParam(m *createMemberRequest) bool {
 	f = f && checkPassword(m.Password)
 	f = f && checkUserType(m.UserType)
 	return f
-}
-
-//检验是否登录
-func checkLogin(c *gin.Context) bool {
-	/*
-		-----------
-	*/
-	return true
-}
-
-//检验是否有管理员权限
-func checkIsAdmin(c *gin.Context) bool {
-	/*
-		-----------
-	*/
-	return true
 }

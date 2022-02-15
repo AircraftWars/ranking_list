@@ -12,7 +12,7 @@ func main() {
 		fmt.Printf("set trusted proxies failed, err:%v\n", err)
 	}
 	types.RegisterRouter(g)
-	if err := g.Run(":8080"); err != nil {
+	if err := g.Run(":80"); err != nil {
 		fmt.Printf("service failed, err:%v\n", err)
 	}
 }

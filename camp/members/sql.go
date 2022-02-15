@@ -1,18 +1,16 @@
 package members
 
 import (
-	"github.com/jinzhu/gorm"
+	"bin/tools"
+	"github.com/go-redis/redis"
 )
 
 //-------------
 //数据库操纵函数
 //-------------
 
-var db *gorm.DB
-
-func init() {
-	db, _ = gorm.Open("mysql", "root:1234@(127.0.0.1:3306)/bytecamp")
-}
+var db = tools.GetDB()
+var rdb = tools.GetRedisDB()
 
 //创建用户
 func createMember(member *createMemberRequest) error {
@@ -30,7 +28,7 @@ func createMember(member *createMemberRequest) error {
 
 //判断用户是否存在by user_name
 func checkUserHasExisted(s string) bool {
-	var count int
+	var count int64
 	db.Table("users").Where("user_name = ?", s).Count(&count)
 	if count != 0 {
 		return true
@@ -40,7 +38,7 @@ func checkUserHasExisted(s string) bool {
 
 //判断用户是否存在by user_id
 func checkUserHasExistedById(id int64) bool {
-	var count int
+	var count int64
 	db.Table("users").Where("user_id = ?", id).Count(&count)
 	if count != 0 {
 		return true
@@ -53,4 +51,17 @@ func getCounts() int64 {
 	var count int64
 	db.Table("users").Count(&count)
 	return count
+}
+
+//检验是否登录 及 是否具有管理员权限
+func checkLogin(s string) ErrNo {
+	token := rdb.Get(s)
+	if token.Err() == redis.Nil {
+		return LoginRequired
+	}
+	t := token.Val()
+	if t[len(t)-1] == '1' {
+		return PermDenied
+	}
+	return OK
 }

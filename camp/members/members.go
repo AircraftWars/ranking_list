@@ -2,7 +2,6 @@ package members
 
 import (
 	"github.com/gin-gonic/gin"
-	_ "github.com/jinzhu/gorm/dialects/mysql"
 	"net/http"
 	"strconv"
 )
@@ -23,11 +22,7 @@ func Create(c *gin.Context) {
 		return
 	}
 
-	if !checkLogin(c) {
-		code = LoginRequired
-	} else if !checkIsAdmin(c) {
-		code = PermDenied
-	}
+	code = checkLogin(member.Username)
 	if code != OK {
 		returnFunc("")
 		return
