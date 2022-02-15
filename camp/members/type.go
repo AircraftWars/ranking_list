@@ -1,9 +1,5 @@
 package members
 
-// 说明：
-// 1. 所提到的「位数」均以字节长度为准
-// 2. 所有的 ID 均为 int64（以 string 方式表现）
-
 type ErrNo int
 
 const (
@@ -25,8 +21,6 @@ type TMember struct {
 	UserType UserType `gorm:"column:user_type"`
 }
 
-// 成员管理
-
 type UserType int
 
 const (
@@ -35,10 +29,6 @@ const (
 	Teacher UserType = 3
 )
 
-// 系统内置管理员账号
-// 账号名：JudgeAdmin 密码：JudgePassword2022
-
-// 只有管理员才能添加
 type createMemberRequest struct {
 	Nickname string   `form:"Nickname"` // required，不小于 4 位 不超过 20 位
 	Username string   `form:"Username"` // required，只支持大小写，长度不小于 8 位 不超过 20 位

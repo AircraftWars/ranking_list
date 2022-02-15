@@ -1,11 +1,11 @@
 package auth
 
 type User struct {
-	PkUserId   int64  `gorm:"primaryKey"`
-	UkUsername string `gorm:"varchar(20)"`
-	Nickname   string `gorm:"varchar(20)"`
-	Password   string `gorm:"varchar(20)"`
-	UserType   int8
+	PkUserId   int64  `gorm:"column:user_id"`
+	UkUsername string `gorm:"column:user_name"`
+	Nickname   string
+	Password   string `gorm:"column:password"`
+	UserType   int8   `gorm:"column:user_type"`
 	Status     int8
 }
 

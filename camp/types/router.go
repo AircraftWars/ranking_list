@@ -1,6 +1,7 @@
 package types
 
 import (
+	"bin/auth"
 	"bin/members"
 	"github.com/gin-gonic/gin"
 )
@@ -14,12 +15,12 @@ func RegisterRouter(r *gin.Engine) {
 	g.GET("/member/list", members.Gets)
 	g.POST("/member/update", members.Update)
 	g.POST("/member/delete", members.Delete)
-	/*
-		// 登录
-		g.POST("/auth/login")
-		g.POST("/auth/logout")
-		g.GET("/auth/whoami")
 
+	// 登录
+	g.POST("/auth/login", auth.LoginHandler)
+	g.POST("/auth/logout", auth.LogoutHandler)
+	g.GET("/auth/whoami", auth.WhoAmIHandler)
+	/*
 		// 排课
 		g.POST("/course/create")
 		g.GET("/course/get")
