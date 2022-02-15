@@ -28,11 +28,21 @@ func createMember(member *createMemberRequest) error {
 	return result.Error
 }
 
-//判断用户是否存在
+//判断用户是否存在by user_name
 func checkUserHasExisted(s string) bool {
-	t := TMember{}
-	result := db.Table("users").Where("user_name = ?", s).Find(&t)
-	if cnt := result.RowsAffected; cnt > 0 {
+	var count int
+	db.Table("users").Where("user_name = ?", s).Count(&count)
+	if count != 0 {
+		return true
+	}
+	return false
+}
+
+//判断用户是否存在by user_id
+func checkUserHasExistedById(id int64) bool {
+	var count int
+	db.Table("users").Where("user_id = ?", id).Count(&count)
+	if count != 0 {
 		return true
 	}
 	return false

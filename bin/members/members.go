@@ -158,13 +158,13 @@ func Update(c *gin.Context) {
 		return
 	}
 
-	//----------------
-	//当传入的nickname和已有的nickname一样时，会修改失败
-	//----------------
-	result := db.Model(&user{}).Where("user_id = ?", userID).Update("nickname", get.Nickname)
-	if rows := result.RowsAffected; rows != 1 {
+	if !checkUserHasExistedById(userID) {
 		code = UserNotExisted
+		returnFunc()
+		return
 	}
+
+	db.Model(&user{}).Where("user_id = ?", userID).Update("nickname", get.Nickname)
 	returnFunc()
 }
 
