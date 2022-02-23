@@ -3,6 +3,7 @@ package com.shu.controller;
 import com.shu.common.Result;
 import com.shu.common.ResultCode;
 import com.shu.entity.RankingInfo;
+import com.shu.entity.RankingInfoDto;
 import com.shu.service.RankingService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -27,7 +28,7 @@ public class QueryController {
     @ResponseBody
     public Result getTopNRankingInfo(@RequestParam int n) {
         if (n <= 0) return Result.failure(ResultCode.PARAM_IS_INVALID);
-        List<RankingInfo> infoList;
+        List<RankingInfoDto> infoList;
         try {
             infoList = rankingService.getTopNRankingInfo(n);
         } catch (ParseException e) {

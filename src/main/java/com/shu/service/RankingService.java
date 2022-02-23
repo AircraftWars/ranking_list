@@ -1,6 +1,7 @@
 package com.shu.service;
 
 import com.shu.entity.RankingInfo;
+import com.shu.entity.RankingInfoDto;
 
 import java.text.ParseException;
 import java.util.List;
@@ -11,6 +12,6 @@ import java.util.List;
  * @description
  */
 public interface RankingService {
-    List<RankingInfo> getTopNRankingInfo(int n) throws ParseException;
+    List<RankingInfoDto> getTopNRankingInfo(int n) throws ParseException;
     void mqDemo();
 }

@@ -1,6 +1,7 @@
 package com.shu.service.impl;
 
 import com.shu.entity.RankingInfo;
+import com.shu.entity.RankingInfoDto;
 import com.shu.service.RankingService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -33,16 +34,16 @@ public class RankingServiceImpl implements RankingService {
     RabbitTemplate rabbitTemplate;
 
     @Override
-    public List<RankingInfo> getTopNRankingInfo(int n) throws ParseException {
-        List<RankingInfo> res = new ArrayList<>();
+    public List<RankingInfoDto> getTopNRankingInfo(int n) throws ParseException {
+        List<RankingInfoDto> res = new ArrayList<>();
         Set<ZSetOperations.TypedTuple<String>> list = redisTemplate.opsForZSet().reverseRangeWithScores(RANKING_LIST, 0, n - 1);
         for (ZSetOperations.TypedTuple<String> o : list) {
-            RankingInfo cur = new RankingInfo();
+            RankingInfoDto cur = new RankingInfoDto();
             cur.setScore(o.getScore());
             // value形式为 playerName@{playTime}
             String[] args = o.getValue().split("@");
             cur.setPlayerName(args[0]);
-            cur.setPlayTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(args[1]));
+            cur.setPlayTime(args[1]);
             res.add(cur);
             log.info("user {} scores {}, at {}" , cur.getPlayerName(), cur.getScore(), cur.getPlayTime());
         }
